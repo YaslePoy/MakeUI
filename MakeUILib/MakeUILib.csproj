@@ -7,4 +7,40 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SFML.Net" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ManagedCuda">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\ManagedCuda.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.SystemEvents">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\Microsoft.Win32.SystemEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="SelfGraphicsNext">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\SelfGraphicsNext.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Audio">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\SFML.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Graphics">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\SFML.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.System">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\SFML.System.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Window">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\SFML.Window.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\..\SelfGraphicsNext\SelfGraphicsNext\bin\x64\Release\net7.0\System.Drawing.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\Controls\" />
+    <Folder Include="VEML\" />
+  </ItemGroup>
+
 </Project>
