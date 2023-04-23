@@ -10,6 +10,8 @@ namespace MakeUILib.UI.Containers
     public abstract class Container : ViewElement
     {
         List<ViewElement> children;
+        public float Width { get; set; }
+        public float Height { get; set; }
         public List<ViewElement> Children { get => children; }
         public virtual void AddChild(ViewElement child)
         {

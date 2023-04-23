@@ -13,9 +13,9 @@ namespace MakeUILib
     {
         public bool IsVisible { get; set; }
         public bool IsActive { get; set; }
-        public Vector2 Size { get; set; }
-        public Vector2 Margin { get; set; }
-        public abstract void Draw(ViewElement parent);
+        
+        public Vector4 Margin { get; set; }
+        public abstract void Draw(Vector2 position);
 
     }
 }

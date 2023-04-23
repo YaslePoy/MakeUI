@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MakeUILib\MakeUILib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="TextFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -9,10 +9,10 @@ namespace MakeUILib.UI.Containers
 {
     internal class PositionalPlane : Container
     {
-        public List<ViewElement> Children => throw new NotImplementedException();
         Dictionary<ViewElement, Vector2> coordinates;
-        public override void Draw(ViewElement parent)
+        public override void Draw(Vector2 position)
         {
+
         }
 
         public List<(ViewElement element, Vector2 position)> GetComposition()
@@ -24,7 +24,7 @@ namespace MakeUILib.UI.Containers
             base.AddChild(child);
             coordinates.Add(Children.Last(), Vector2.Zero);
         }
-        public void SetPosition(Vector2 position, ViewElement element) {
+        public void SetPosition(ViewElement element, Vector2 position) {
             if (!coordinates.ContainsKey(element))
                 return;
             coordinates[element] = position;

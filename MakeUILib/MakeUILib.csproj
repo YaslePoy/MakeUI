@@ -38,9 +38,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\Controls\" />
-    <Folder Include="VEML\" />
-  </ItemGroup>
-
 </Project>

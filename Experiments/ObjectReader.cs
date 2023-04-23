@@ -17,22 +17,27 @@ namespace Experiments
         public VEMLObject Read()
         {
             var text = File.ReadAllText(filePath);
-
+            return null;
         }
 
-        public static List<(int start, int end)> GetBlocks()
+        public static List<(char, int)> GetBlocks(string text)
         {
-
+            List<(char, int)> line = new List<(char, int)>();
+            int l = 0;
+            foreach (var item in text)
+            {
+                switch (item)
+                {
+                    case '.':
+                        l++;
+                        break;
+                    case ';':
+                        l--;
+                        break;
+                }
+                line.Add((item, l));
+            }
+            return line;
         }
-    }
-
-    class VEMLObject : List<VELMProperty>
-    {
-        public string Name;
-    }
-    class VELMProperty
-    {
-        public string Name;
-        public object Value;
     }
 }
