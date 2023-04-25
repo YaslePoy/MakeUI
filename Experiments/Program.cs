@@ -1,16 +1,17 @@
-﻿namespace Experiments
+﻿using MakeUILib.VEML;
+using SFML.Graphics;
+namespace Experiments
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            Font font = new Font("C:\\Windows\\Fonts\\consola.ttf");
+            var text = new Text("test string", font);
+            var a = text.GetLocalBounds();
+            text.CharacterSize = 20;
+            var b = text.GetLocalBounds();
             Console.WriteLine("Hello, World!");
-            var str = ".ruyyryurtuyr..tyut;u.468489;yiytiti;;";
-            var sh = ObjectReader.GetBlocks(str);
-            foreach (var block in sh)
-            {
-                Console.WriteLine(string.Concat(Enumerable.Repeat("-", block.Item2)) + block.Item1);
-            }
         }
     }
     public class Utils

@@ -38,4 +38,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Rescouces\CONSOLA.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

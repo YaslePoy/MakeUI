@@ -1,4 +1,7 @@
-﻿.A b=5 c=54.3 X=
-		.Y qew=15
+﻿.Window Width=700 Height=600 Content=
+	.PositionalPlane Margin=[]:
+		PositionalItem X=50 Y=30 View=
+			.Button Width=30 Height=100 Text="Test button";
+		;
 	;
 ;

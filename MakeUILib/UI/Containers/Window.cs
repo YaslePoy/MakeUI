@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using MakeUILib.Basics;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace MakeUILib.UI.Containers
     {
         RenderWindow _w;
         public string Title { get; set; }
-        public Container Content { get; set; }
+        public ViewElement Content { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
         public void Open()
@@ -22,15 +23,16 @@ namespace MakeUILib.UI.Containers
             _w.SetFramerateLimit(60);
             _w.SetActive(true);
             _w.Closed += (a, b) => _w.Close();
+            Content.toWindow = _w;
             while (_w.IsOpen)
             {
                 _w.DispatchEvents();
 
                 _w.Clear();
                 
-                if(Content != null )
+                if(Content != null)
                 {
-                    Content.Draw(Vector2.Zero);
+                    Content.Draw(new DVector2(100, 100));
                 }
                 _w.Display();
             }
