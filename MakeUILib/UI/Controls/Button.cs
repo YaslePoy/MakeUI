@@ -1,5 +1,7 @@
 ﻿using MakeUILib.Basics;
+using MakeUILib.UI.Containers;
 using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +18,25 @@ namespace MakeUILib.UI.Controls
         public Indent Padding { get; set; }
         public override void Draw(DVector2 position)
         {
-            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width + Padding.Horisontal), (float)(Height + Padding.Horisontal)));
+            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width), (float)(Height)));
             shape.FillColor = Color;
-            shape.OutlineColor = new Color(Color.White - Color) { A = byte.MaxValue };
-            shape.OutlineThickness = 1;
             shape.Position = position;
+            Color olc;
+            
+            var msPos = Mouse.GetPosition(GetWindow());
+            var gb = shape.GetGlobalBounds();
+            if (gb.Contains(msPos))
+            {
+                olc = Color.Red;
+            }else
+            {
+                olc = new Color(Color.White - Color) { A = byte.MaxValue };
+            }
+            shape.OutlineColor = olc;
+            shape.OutlineThickness = 1;
             GetWindow().Draw(shape);
             Content.Draw(position + new DVector2(Padding.Left, Padding.Top));
+
         }
 
         public Button(string text)

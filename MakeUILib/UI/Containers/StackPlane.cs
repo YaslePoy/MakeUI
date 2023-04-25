@@ -13,7 +13,8 @@ namespace MakeUILib.UI.Containers
         public override void Draw(DVector2 position)
         {
             double sum = 0;
-            foreach (var child in Children)
+            var workList = Children.ToArray();
+            foreach (var child in workList)
             {
                 if (!child.IsActive)
                     continue;
