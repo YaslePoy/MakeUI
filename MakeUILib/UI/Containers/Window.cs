@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static SFML.Graphics.Font;
 
 namespace MakeUILib.UI.Containers
 {
@@ -23,16 +24,17 @@ namespace MakeUILib.UI.Containers
             _w.SetFramerateLimit(60);
             _w.SetActive(true);
             _w.Closed += (a, b) => _w.Close();
+            _w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
             Content.toWindow = _w;
             while (_w.IsOpen)
             {
                 _w.DispatchEvents();
 
-                _w.Clear();
+                _w.Clear(new Color(210, 210, 210));
                 
                 if(Content != null)
                 {
-                    Content.Draw(new DVector2(100, 100));
+                    Content.Draw(new DVector2(10, 10));
                 }
                 _w.Display();
             }

@@ -19,9 +19,9 @@ namespace MakeUILib.UI.Controls
         public TextView(string text) : this()
         {
             Text = text;
-            
-            Width = inside.FindCharacterPos((uint)(text.Length - 1)).X;
-            Height = FontSize;
+            var bounds = inside.GetGlobalBounds();
+            Width = bounds.Width;
+            Height = bounds.Height + bounds.Top;
         }
         public TextView()
         {
@@ -30,11 +30,9 @@ namespace MakeUILib.UI.Controls
         public override void Draw(DVector2 position)
         {
             var win = GetWindow();
-            var txt = new SFML.Graphics.Text(Text, Font);
-            txt.CharacterSize = (uint)(FontSize * Utils.PtToPx);
-            txt.Color = Color;
-            txt.Position = position;
-            win.Draw(txt);
+
+            inside.Position = position;
+            win.Draw(inside);
         }
     }
 }

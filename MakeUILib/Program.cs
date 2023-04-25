@@ -11,9 +11,12 @@ namespace MakeUILib
         {
             Console.WriteLine("Hello, World!");
             Window window = new Window() { Height = 500, Width = 500, Title = "Test" };
-
-            Button button = new Button("test button");
-            window.Content = button;
+            StackPlane plane = new StackPlane();
+            plane.Width = 500;
+            plane.Height = 500;
+            plane.AddChild(new Button("Text 1"));
+            plane.AddChild(new Button("Long text"));
+            window.Content = plane;
             window.Open();
         }
     }

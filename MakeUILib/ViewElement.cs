@@ -18,8 +18,8 @@ namespace MakeUILib
         public RenderWindow toWindow { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
-        public bool IsVisible { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsVisible { get; set; } = true;
+        public bool IsActive { get; set; } = true;
         public Vector4 Margin { get; set; }
         public virtual void Draw(DVector2 position)
         {

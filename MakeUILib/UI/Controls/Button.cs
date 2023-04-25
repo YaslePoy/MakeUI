@@ -16,7 +16,7 @@ namespace MakeUILib.UI.Controls
         public Indent Padding { get; set; }
         public override void Draw(DVector2 position)
         {
-            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)Width, (float)Height));
+            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width + Padding.Horisontal), (float)(Height + Padding.Horisontal)));
             shape.FillColor = Color;
             shape.OutlineColor = new Color(Color.White - Color) { A = byte.MaxValue };
             shape.OutlineThickness = 1;
