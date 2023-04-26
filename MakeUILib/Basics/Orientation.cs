@@ -8,7 +8,7 @@ namespace MakeUILib.Basics
 {
     public enum Orientation
     {
-        Horizontal = 0,
-        Vertical = 1
+        Vertical = 0,
+        Horizontal = 1
     }
 }

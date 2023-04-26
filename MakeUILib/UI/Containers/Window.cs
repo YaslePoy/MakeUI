@@ -27,14 +27,12 @@ namespace MakeUILib.UI.Containers
             _w.SetFramerateLimit(50);
             _w.SetKeyRepeatEnabled(false);
             _w.Closed += (a, b) => _w.Close();
-            _w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
+            //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
             _w.KeyPressed += _w_KeyPressed;
             _w.KeyReleased += _w_KeyReleased;
-            _w.mO
             _w.SetActive(true);
 
             Content.toWindow = _w;
-            sw.Start();
             while (_w.IsOpen)
             {
                 _w.DispatchEvents();

@@ -6,12 +6,18 @@ namespace Experiments
     {
         static void Main(string[] args)
         {
-            Font font = new Font("C:\\Windows\\Fonts\\consola.ttf");
-            var text = new Text("test string", font);
-            var a = text.GetLocalBounds();
-            text.CharacterSize = 20;
-            var b = text.GetLocalBounds();
             Console.WriteLine("Hello, World!");
+            var win = File.ReadAllText("TextFile1.veml");
+            Console.WriteLine(win);
+            Claster c = new Claster(win);
+            c.SearchStructures();
+            foreach (var s in c.Structures)
+            {
+                Console.WriteLine(s);
+                Console.Write($"{win.Substring(s.Start, 5)}...");
+                if (s.End > 0)
+                    Console.WriteLine(win.Substring(s.End - 4, 5));
+            }
         }
     }
     public class Utils

@@ -13,13 +13,12 @@ namespace MakeUILib.UI.Controls
 {
     internal class Button : ViewElement
     {
-        public Color Color { get; set; }
         public ViewElement Content { get; set; }
         public Indent Padding { get; set; }
         public override void Draw(DVector2 position)
         {
-            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width), (float)(Height)));
-            shape.FillColor = Color;
+            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width + (Padding + Content.Margin).Horisontal), (float)(Height + (Padding + Content.Margin).Vertical)));
+            shape.FillColor = Background;
             shape.Position = position;
             Color olc;
             
@@ -30,13 +29,12 @@ namespace MakeUILib.UI.Controls
                 olc = Color.Red;
             }else
             {
-                olc = new Color(Color.White - Color) { A = byte.MaxValue };
+                olc = new Color(Color.White - Background) { A = byte.MaxValue };
             }
             shape.OutlineColor = olc;
             shape.OutlineThickness = 1;
             GetWindow().Draw(shape);
-            Content.Draw(position + new DVector2(Padding.Left, Padding.Top));
-
+            Content.Draw(position + new DVector2(Padding.Left + Content.Margin.Left, Padding.Top + Content.Margin.Top));
         }
 
         public Button(string text)

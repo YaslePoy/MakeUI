@@ -47,5 +47,7 @@ namespace MakeUILib.Basics
 
         public double Horisontal => Right + Left;
         public double Vertical => Top + Bottom;
+
+        public static Indent operator +(Indent left, Indent right) => new Indent(left.Top + right.Top, left.Bottom + right.Bottom, left.Left + right.Left, left.Right + right.Right);
     }
 }

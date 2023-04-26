@@ -10,7 +10,7 @@ namespace MakeUILib
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            Window window = new Window() { Height = 500, Width = 500, Title = "Test" };
+            Window window = new Window() { Height = 700, Width = 1000, Title = "Test" };
             Grid plane = new Grid();
             plane.Width = 500;
             plane.Height = 500;

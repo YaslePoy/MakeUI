@@ -1,0 +1,19 @@
+﻿.Window Width=1000 Height=700 Content=
+	.Grid Margin=5 Rows=[200 auto]:
+		.StackPlane Orientation=Vertical Margin=5:
+			.TextView Text="Ширина";
+			.StackPlane Orientation=Horizontal Height=50:
+				.Button Content="+";
+				.Button Content="-";
+				.TextView Text="10";
+			;
+			.TextView Text="Вывота";
+			.StackPlane Orientation=Horizontal Height=50:
+				.Button Content="+";
+				.Button Content="-";
+				.TextView Text="10";
+			;
+		;
+		.Grid Margin=5:;
+	;
+;
