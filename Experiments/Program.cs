@@ -11,13 +11,11 @@ namespace Experiments
             Console.WriteLine(win);
             Claster c = new Claster(win);
             c.SearchStructures();
-            foreach (var s in c.Structures)
-            {
-                Console.WriteLine(s);
-                Console.Write($"{win.Substring(s.Start, 5)}...");
-                if (s.End > 0)
-                    Console.WriteLine(win.Substring(s.End - 4, 5));
-            }
+            var start = c.MainStruct();
+            start.UpdateStructures();
+            start.LoadText();
+            start.Extend();
+            start.ToVEML();
         }
     }
     public class Utils

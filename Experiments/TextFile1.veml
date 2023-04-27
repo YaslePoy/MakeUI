@@ -1,19 +1,19 @@
-﻿.Window Width=1000 Height=700 Content=
-	.Grid Margin=5 Rows=[200 auto]:
-		.StackPlane Orientation=Vertical Margin=5:
-			.TextView Text="Ширина";
-			.StackPlane Orientation=Horizontal Height=50:
-				.Button Content="+";
-				.Button Content="-";
-				.TextView Text="10";
+﻿.Window Id=1 Width=1000 Height=700 Content=
+	.Grid Id=2 Margin=5 Rows=[200 auto]:
+		.StackPlane Id=3 Orientation=Vertical Margin=5:
+			.TextView Id=5 Text="Ширина";
+			.StackPlane Id=6 Orientation=Horizontal Height=50:
+				.Button Id=9 Content="+";
+				.Button Id=10 Content="-";
+				.TextView Id=11 Text="10";
 			;
-			.TextView Text="Вывота";
-			.StackPlane Orientation=Horizontal Height=50:
-				.Button Content="+";
-				.Button Content="-";
-				.TextView Text="10";
+			.TextView Id=7 Text="Вывота";
+			.StackPlane Id=8 Orientation=Horizontal Height=50:
+				.Button Id=12 Content="+";
+				.Button Id=13 Content="-";
+				.TextView Id=14 Text="10";
 			;
 		;
-		.Grid Margin=5:;
+		.Grid Id=4 Margin=5:;
 	;
 ;
