@@ -21,5 +21,16 @@ namespace MakeUILib.VEML
         {
             return $"{TypeName} {string.Join(' ', Properties.Select(i => i.ToString()))};";
         }
+
+        public static dynamic ParceValue(string value)
+        {
+            if (value.All(i => char.IsDigit(i) || i == ','))
+                return double.Parse(value);
+            else if (value.All(char.IsDigit))
+                return int.Parse(value);
+            else if (value is "true" or "false")
+                return bool.Parse(value);
+            return null;
+        }
     }
 }

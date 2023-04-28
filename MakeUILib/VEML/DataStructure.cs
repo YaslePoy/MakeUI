@@ -69,10 +69,58 @@ namespace MakeUILib.VEML
         }
         public VEMLObject ToVEML()
         {
+            string[] parts;
+            List<VEMLProperty> loadProps(string[] parts)
+            {
+                var vOjb = new List<VEMLProperty>();
+                foreach(var part in parts)
+                {
+                    var splited = part.Trim().Split('=');
+                    var name = splited[0];
+                    var strValue = splited[1];
+                    dynamic value = null;
+                    if (strValue.StartsWith('\u0001'))
+                    {
+                        var vemlValue = Structures[strValue[1]];
+                        if(vemlValue.Type == StructureType.String)
+                        {
+                            value = vemlValue.Text.Trim('\"');
+                            continue;
+                        }
+                        if(vemlValue.Type == StructureType.Array)
+                        {
+                            value = vemlValue.GetArray();
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        value = VEMLObject.ParceValue(strValue);
+                    }
+                    vOjb.Add(new VEMLProperty() { Name = name, Value = value });
+                }
+                return vOjb;
+            }
+            List<VEMLObject> loadObjs(string list)
+            {
+                var structs = list.Split('\u0001');
+                return structs.Select(i => Structures[i[0]].ToVEML()).ToList();
+            }
+            var clearData = ExtendedText[1..^1];
+            if (ExtendedText.Contains(':'))
+            {
+                var crear = 
+                parts = clearData.Split(":")[0].Split(" ");
+                var main = loadProps(parts);
+                var list = loadObjs(clearData.Split(":")[1]);
 
-            var parts = ExtendedText[1..^1].Split(" ");
+            }
+            else
+            {
+                parts = ExtendedText[1..^1].Split(" ");
+            }
             VEMLObject ret = new VEMLObject(parts[0]);
-
+            foreach (var part in parts[1..]) { }
             return null;
         }
         public override string ToString()
@@ -81,11 +129,11 @@ namespace MakeUILib.VEML
         }
         public object[] GetArray()
         {
-            if(Type != StructureType.Array)
+            if (Type != StructureType.Array)
             {
                 throw new Exception();
             }
-            
+
             return null;
         }
     }
@@ -95,7 +143,7 @@ namespace MakeUILib.VEML
         public readonly static StructureType Array = new StructureType("Array", "[", "]");
         public readonly static StructureType Expression = new StructureType("Expression", "{", "}");
         public readonly static StructureType String = new StructureType("String", "\"", "\"");
-        public readonly static List<StructureType> AllTypes = new List<StructureType>() { Object, Array, Expression, String};
+        public readonly static List<StructureType> AllTypes = new List<StructureType>() { Object, Array, Expression, String };
         public string Name;
         public string Open;
         public string Close;

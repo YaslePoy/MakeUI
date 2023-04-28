@@ -34,7 +34,7 @@ namespace MakeUILib.UI.Containers
 
             Content.toWindow = _w;
             while (_w.IsOpen)
-            {
+            { 
                 _w.DispatchEvents();
 
                 _w.Clear(new Color(210, 210, 210));
