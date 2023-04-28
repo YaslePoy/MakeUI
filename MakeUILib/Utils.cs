@@ -3,6 +3,7 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace MakeUILib
 {
     public static class Utils
     {
+        public static List<Type> TotalTypes;
         public const double PtToPx = 1.3281472327365;
         public const double ToRad = 0.017453292519943295769236907684886;
         public const double ToDeg = 57.295779513082320876798154814105;
@@ -47,8 +49,15 @@ namespace MakeUILib
         public static bool Contains(this FloatRect rect, Vector2i point)
         {
             var dX = point.X - rect.Left;
-            var dY  = point.Y - rect.Top;
+            var dY = point.Y - rect.Top;
             return dX >= 0 && dX < rect.Width && dY >= 0 && dY < rect.Height;
+        }
+
+        public static void UpdateTypes()
+        {
+            var local = Assembly.GetExecutingAssembly().GetTypes().ToList();
+            local.AddRange(Assembly.GetEntryAssembly().GetTypes().ToList());
+            TotalTypes = local;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.UI.Containers
 {
+    [VEMLPseudonym("StackPlane")]
     internal class StackPlane : Container
     {
         public Orientation Direction { get; set; }

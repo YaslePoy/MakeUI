@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.UI.Containers
 {
+    [VEMLPseudonym("PositionalPlane")]
     internal class PositionalPlane : Container
     {
         Dictionary<ViewElement, DVector2> coordinates;

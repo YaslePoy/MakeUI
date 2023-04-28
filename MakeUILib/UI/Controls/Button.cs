@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.UI.Controls
 {
+    [VEMLPseudonym("Button")]
     internal class Button : ViewElement
     {
         public ViewElement Content { get; set; }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.UI.Containers
 {
+    [VEMLPseudonym("Grid")]
     public class Grid : Container
     {
         public List<double> Rows { get; set; } = new List<double>();

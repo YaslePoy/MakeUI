@@ -13,13 +13,15 @@ using static SFML.Graphics.Font;
 
 namespace MakeUILib.UI.Containers
 {
-    internal class Window
+    [VEMLPseudonym("Window")]
+    public class Window
     {
         RenderWindow _w;
+        public string Id { get; set; }
         public string Title { get; set; }
         public ViewElement Content { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public void Open()
         {
             Stopwatch sw = new Stopwatch();
@@ -34,7 +36,7 @@ namespace MakeUILib.UI.Containers
 
             Content.toWindow = _w;
             while (_w.IsOpen)
-            { 
+            {
                 _w.DispatchEvents();
 
                 _w.Clear(new Color(210, 210, 210));

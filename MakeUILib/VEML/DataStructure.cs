@@ -53,7 +53,7 @@ namespace MakeUILib.VEML
             for (int i = 0; i < Structures.Count; i++)
             {
                 var toReplace = Structures[i].Text;
-                var newText = '\u0001'.ToString() + ((char)i).ToString();
+                var newText = '\u0001'.ToString() + ((char)(i + 2)).ToString();
                 ExtendedText = ExtendedText.Replace(toReplace, newText);
                 Structures[i].Extend();
             }
@@ -67,61 +67,73 @@ namespace MakeUILib.VEML
                 s.End = s.Start + s.Text.Length - 1;
             }
         }
+        object parce(string strValue)
+        {
+            object value = null;
+
+            if (strValue.StartsWith('\u0001'))
+            {
+                var vemlValue = Structures[strValue[1] - 2];
+                if (vemlValue.Type == StructureType.String)
+                {
+                    value = vemlValue.Text.Trim('\"');
+                }
+                else if (vemlValue.Type == StructureType.Array)
+                {
+                    value = vemlValue.GetArray();
+                }
+                else if (vemlValue.Type == StructureType.Object)
+                {
+                    value = vemlValue.ToVEML();
+                }
+            }
+            else
+            {
+                value = VEMLObject.ParceValue(strValue);
+            }
+            return value;
+        }
         public VEMLObject ToVEML()
         {
             string[] parts;
             List<VEMLProperty> loadProps(string[] parts)
             {
                 var vOjb = new List<VEMLProperty>();
-                foreach(var part in parts)
+                foreach (var part in parts)
                 {
-                    var splited = part.Trim().Split('=');
-                    var name = splited[0];
-                    var strValue = splited[1];
-                    dynamic value = null;
-                    if (strValue.StartsWith('\u0001'))
-                    {
-                        var vemlValue = Structures[strValue[1]];
-                        if(vemlValue.Type == StructureType.String)
-                        {
-                            value = vemlValue.Text.Trim('\"');
-                            continue;
-                        }
-                        if(vemlValue.Type == StructureType.Array)
-                        {
-                            value = vemlValue.GetArray();
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        value = VEMLObject.ParceValue(strValue);
-                    }
+                    var splited = part.Split('=');
+                    var name = splited[0].Trim('\n');
+                    var strValue = splited[1].Trim('\n');
+                    object value = parce(strValue);
                     vOjb.Add(new VEMLProperty() { Name = name, Value = value });
                 }
                 return vOjb;
             }
             List<VEMLObject> loadObjs(string list)
             {
-                var structs = list.Split('\u0001');
-                return structs.Select(i => Structures[i[0]].ToVEML()).ToList();
+                var structs = list.Split('\u0001', StringSplitOptions.RemoveEmptyEntries);
+                return structs.Select(i => Structures[i[0] - 2].ToVEML()).ToList();
             }
             var clearData = ExtendedText[1..^1];
             if (ExtendedText.Contains(':'))
             {
-                var crear = 
-                parts = clearData.Split(":")[0].Split(" ");
-                var main = loadProps(parts);
-                var list = loadObjs(clearData.Split(":")[1]);
 
+                var splitedCD = clearData.Split(":");
+                var propPart = splitedCD[0];
+                parts = propPart.Split(" ");
+                var main = loadProps(parts[1..]);
+                var list = loadObjs(splitedCD[1]);
+                var finCol = new VEMLCollection(parts[0]) { Items = list, Properties = main };
+
+                return finCol;
             }
             else
             {
-                parts = ExtendedText[1..^1].Split(" ");
+                parts = clearData.Split(' ');
+                var props = loadProps(parts[1..]);
+                var finOnj = new VEMLObject(parts[0]) { Properties = props };
+                return finOnj;
             }
-            VEMLObject ret = new VEMLObject(parts[0]);
-            foreach (var part in parts[1..]) { }
-            return null;
         }
         public override string ToString()
         {
@@ -133,8 +145,14 @@ namespace MakeUILib.VEML
             {
                 throw new Exception();
             }
-
-            return null;
+            var crearData = ExtendedText[1..^1];
+            var splited = crearData.Split(" ");
+            var ret = new object[splited.Length];
+            for (int i = 0; i < ret.Length; i++)
+            {
+                ret[i] = parce(splited[i]);
+            }
+            return ret;
         }
     }
     public class StructureType

@@ -20,5 +20,11 @@ namespace MakeUILib.VEML
         {
             return $"{TypeName} {string.Join(' ', Properties.Select(i => i.ToString()))}" + (Items.Count > 0 ? $":{string.Join("", Items.Select(i => i.ToString()))}" : 0) + ";";
         }
+        public override object ToReal()
+        {
+            var baseObject = base.ToReal();
+            baseObject.GetType().GetProperty("Children").SetValue(baseObject, Items.Select(i => i.ToReal()).ToList());
+            return baseObject;
+        }
     }
 }

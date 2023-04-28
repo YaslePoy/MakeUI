@@ -14,6 +14,7 @@ namespace MakeUILib
 {
     public class ViewElement
     {
+        public string Id { get; set; }
         public ViewElement Parent { get; set; }
         public RenderWindow toWindow { get; set; }
         public double Width { get; set; }

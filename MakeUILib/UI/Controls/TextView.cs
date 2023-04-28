@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.UI.Controls
 {
+    [VEMLPseudonym("TextView")]
     public class TextView : ViewElement
     {
         SFML.Graphics.Text inside;

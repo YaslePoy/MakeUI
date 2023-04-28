@@ -1,5 +1,6 @@
 ﻿using MakeUILib.VEML;
-using SFML.Graphics;
+using System.Text.Unicode;
+
 namespace Experiments
 {
     internal class Program
@@ -8,6 +9,7 @@ namespace Experiments
         {
             Console.WriteLine("Hello, World!");
             var win = File.ReadAllText("TextFile1.veml");
+            int[] a = new int[] { 1, 2 };
             Console.WriteLine(win);
             Claster c = new Claster(win);
             c.SearchStructures();
@@ -15,7 +17,9 @@ namespace Experiments
             start.UpdateStructures();
             start.LoadText();
             start.Extend();
-            start.ToVEML();
+            var vemlFile = start.ToVEML();
+            MakeUILib.Utils.UpdateTypes();
+            var o = vemlFile.ToReal();
         }
     }
     public class Utils

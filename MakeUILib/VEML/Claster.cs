@@ -10,6 +10,7 @@
             this.Data = data;
             Data = Data.Replace("\r", "");
             Data = Data.Replace("\t", "");
+            Data = Data.Replace("\n", "");
             Structures = new List<DataStructure>();
         }
         public DataStructure MainStruct()
