@@ -22,28 +22,40 @@ namespace MakeUILib.UI.Controls
             shape.FillColor = Background;
             shape.Position = position;
             Color olc;
-            
+
             var msPos = Mouse.GetPosition(GetWindow());
             var gb = shape.GetGlobalBounds();
             if (gb.Contains(msPos))
             {
                 olc = Color.Red;
-            }else
+            }
+            else
             {
                 olc = new Color(Color.White - Background) { A = byte.MaxValue };
             }
             shape.OutlineColor = olc;
             shape.OutlineThickness = 1;
             GetWindow().Draw(shape);
-            Content.Draw(position + new DVector2(Padding.Left + Content.Margin.Left, Padding.Top + Content.Margin.Top));
+            if (Content != null)
+                Content.Draw(position + new DVector2(Padding.Left + Content.Margin.Left, Padding.Top + Content.Margin.Top));
         }
 
         public Button(string text)
         {
             var tv = new TextView(text);
             Content = tv;
-            Width = Content.Width + Padding.Left + Padding.Right;
-            Height = Content.Height + Padding.Top + Padding.Bottom;
+            var rect = Content.LayoutRect;
+            Width = rect.X + Padding.Horisontal;
+            Height = rect.Y + Padding.Vertical;
+            Content.Parent = this;
+        }
+        public Button()
+        {
+            Width = 50;
+            Height = 50;
+        }
+        public override void UpdateParentLikns()
+        {
             Content.Parent = this;
         }
     }

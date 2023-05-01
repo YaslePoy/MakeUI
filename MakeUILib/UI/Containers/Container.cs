@@ -9,17 +9,20 @@ namespace MakeUILib.UI.Containers
 {
     public abstract class Container : ViewElement
     {
-        List<ViewElement> children { get; set; }
-        public List<ViewElement> Children { get => children; }
+        public List<ViewElement> Children { get; set; }
         public virtual void AddChild(ViewElement child)
         {
-            children.Add(child);
-            children.Last().Parent = this;
+            Children.Add(child);
+            Children.Last().Parent = this;
         }
 
         public Container()
         {
-            children = new List<ViewElement>();
+            Children = new List<ViewElement>();
+        }
+        public override void UpdateParentLikns()
+        {
+            Children.ForEach(i => { i.Parent = this; i.UpdateParentLikns(); });
         }
     }
 }

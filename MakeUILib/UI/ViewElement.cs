@@ -23,6 +23,7 @@ namespace MakeUILib
         public bool IsActive { get; set; } = true;
         public Indent Margin { get; set; } = StaticValues.DefauldIndent;
         public virtual Color Background { get; set; }
+        public virtual DVector2 LayoutRect { get => new DVector2(Width + Margin.Horisontal, Height + Margin.Vertical); }
         public virtual void Draw(DVector2 position)
         {
             if (!IsVisible)
@@ -34,10 +35,6 @@ namespace MakeUILib
             text.Text = GetType().FullName;
             GetWindow().Draw(shape);
         }
-        public virtual DVector2 GetBounds()
-        {
-            return new DVector2((float)(Width + Margin.Horisontal), (float)(Height + Margin.Vertical));
-        }
         public RenderWindow GetWindow()
         {
             if (toWindow == null)
@@ -46,5 +43,6 @@ namespace MakeUILib
             }
             return toWindow;
         }
+        public virtual void UpdateParentLikns() { }
     }
 }

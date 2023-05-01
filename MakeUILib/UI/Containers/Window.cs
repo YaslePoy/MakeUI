@@ -42,12 +42,15 @@ namespace MakeUILib.UI.Containers
                 _w.Clear(new Color(210, 210, 210));
                 if (Content != null)
                 {
-                    Content.Draw(new DVector2(10, 10));
+                    Content.Draw(DVector2.Zero);
                 }
                 _w.Display();
             }
         }
-
+        public void UpdateLinks()
+        {
+            Content.UpdateParentLikns();
+        }
         private void _w_KeyReleased(object? sender, KeyEventArgs e)
         {
             Console.WriteLine($"{e.Code} is released");

@@ -13,9 +13,23 @@ namespace MakeUILib.UI.Controls
     {
         SFML.Graphics.Text inside;
         public SFML.Graphics.Text Raw => inside;
-        public string Text { get => inside.DisplayedString; set => inside.DisplayedString = value; }
+        public string Text
+        {
+            get => inside.DisplayedString; set
+            {
+                inside.DisplayedString = value;
+                UpdateRect();
+            }
+        }
         public Font Font { get; set; } = StaticValues.StartFont;
-        public double FontSize { get => inside.CharacterSize; set => inside.CharacterSize = (uint)value; }
+        public double FontSize
+        {
+            get => inside.CharacterSize; set
+            {
+                inside.CharacterSize = (uint)value;
+                UpdateRect();
+            }
+        } 
         public override Color Background { get => inside.Color; set => inside.Color = value; }
         public TextView(string text) : this()
         {
@@ -23,6 +37,12 @@ namespace MakeUILib.UI.Controls
             var bounds = inside.GetGlobalBounds();
             Width = bounds.Width;
             Height = bounds.Height + bounds.Top;
+        }
+        void UpdateRect()
+        {
+var gb = inside.GetGlobalBounds();
+                Width = gb.Left + gb.Width;
+                Height = gb.Top + gb.Height;
         }
         public TextView()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MakeUILib.UI;
 
 namespace MakeUILib.VEML
 {
@@ -23,7 +24,7 @@ namespace MakeUILib.VEML
         public override object ToReal()
         {
             var baseObject = base.ToReal();
-            baseObject.GetType().GetProperty("Children").SetValue(baseObject, Items.Select(i => i.ToReal()).ToList());
+            baseObject.GetType().GetProperty("Children").SetValue(baseObject, Items.Select(i => (ViewElement)i.ToReal()).ToList());
             return baseObject;
         }
     }

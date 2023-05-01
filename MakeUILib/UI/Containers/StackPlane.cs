@@ -11,6 +11,7 @@ namespace MakeUILib.UI.Containers
     internal class StackPlane : Container
     {
         public Orientation Direction { get; set; }
+        public Indent Spacing { get; set; }
         public override void Draw(DVector2 position)
         {
             double sum = 0;
@@ -24,11 +25,11 @@ namespace MakeUILib.UI.Containers
                 {
                     case Orientation.Horizontal:
                         delta.X = sum;
-                        sum += child.Width;
+                        sum += child.LayoutRect.X + Spacing.Horisontal;
                         break;
                     case Orientation.Vertical:
                         delta.Y = sum;
-                        sum += child.Height;
+                        sum += child.LayoutRect.Y + Spacing.Vertical;
                         break;
                 }
                 child.Draw(position + delta);

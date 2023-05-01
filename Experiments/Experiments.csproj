@@ -1,20 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MakeUILib\MakeUILib.csproj" />
+    <None Remove="TextFile1.veml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TextFile1.veml">
+    <EmbeddedResource Include="TextFile1.veml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MakeUILib\MakeUILib.csproj" />
   </ItemGroup>
 
 </Project>

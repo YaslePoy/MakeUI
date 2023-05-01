@@ -31,7 +31,7 @@ namespace MakeUILib.VEML
                 return int.Parse(value);
             else if (value is "true" or "false")
                 return bool.Parse(value);
-            return null;
+            return value;
         }
         public virtual object ToReal()
         {
@@ -56,17 +56,29 @@ namespace MakeUILib.VEML
             var retObj = Activator.CreateInstance(curType);
             foreach (var prop in Properties)
             {
-                var valueType = prop.Value.GetType();
+
                 var propO = curType.GetProperty(prop.Name);
-                if (propO.PropertyType == valueType)
-                    propO.SetValue(retObj, VEMLToRealParcer(prop.Value));
+                if (propO.PropertyType.IsEnum)
+                {
+                    propO.SetValue(retObj, Enum.Parse(propO.PropertyType, prop.Value.ToString()));
+                }
                 else
                 {
-                    var methods = typeof(Parsers).GetMethods();
-                    var m = methods.Where(i => i.GetCustomAttribute(typeof(ParceMethod)) != null).FirstOrDefault(i => (i.GetCustomAttribute(typeof(ParceMethod)) as ParceMethod).IsFor(valueType, propO.PropertyType));
-                    var finalValue = m.Invoke(null, new object[] { prop.Value });
-                    propO.SetValue(retObj, VEMLToRealParcer(finalValue));
+                    var localVal = VEMLToRealParcer(prop.Value);
+                    var valueType = localVal.GetType();
+                    if (valueType.IsSubclassOf(propO.PropertyType) || propO.PropertyType == valueType)
+                        propO.SetValue(retObj, VEMLToRealParcer(prop.Value));
+                    else
+                    {
+                        var methods = typeof(Parsers).GetMethods();
+                        var m = methods.Where(i => i.GetCustomAttribute(typeof(ParceMethod)) != null).FirstOrDefault(i => (i.GetCustomAttribute(typeof(ParceMethod)) as ParceMethod).IsFor(valueType, propO.PropertyType));
+                        if (m == null)
+                            return null;
+                        var finalValue = m.Invoke(null, new object[] { prop.Value });
+                        propO.SetValue(retObj, VEMLToRealParcer(finalValue));
+                    }
                 }
+
             }
             return retObj;
         }
