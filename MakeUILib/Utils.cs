@@ -59,5 +59,35 @@ namespace MakeUILib
             local.AddRange(Assembly.GetEntryAssembly().GetTypes().ToList());
             TotalTypes = local;
         }
+
+        public static FieldInfo GetFieldDeep(this Type t, string fieldName)
+        {
+            var searchField = t.GetField(fieldName);
+            if(searchField != null)
+                return searchField;
+            var bType = t.BaseType;
+            while(bType != null)
+            {
+                searchField = bType.GetField(fieldName);
+                if(searchField != null) return searchField;
+                bType = bType.BaseType;
+            }
+            return null;
+        }
+        public static PropertyInfo GetProperyDeep(this Type t, string propName)
+        {
+            var searchField = t.GetProperty(propName);
+            if (searchField != null)
+                return searchField;
+            var bType = t.BaseType;
+            while (bType != null)
+            {
+                searchField = bType.GetProperty(propName);
+                if (searchField != null) return searchField;
+                bType = bType.BaseType;
+            }
+            return null;
+
+        }
     }
 }

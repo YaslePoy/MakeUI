@@ -21,17 +21,26 @@ namespace MakeUILib.UI.Controls
             RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width + (Padding + Content.Margin).Horisontal), (float)(Height + (Padding + Content.Margin).Vertical)));
             shape.FillColor = Background;
             shape.Position = position;
-            Color olc;
+            Color olc = Color.Transparent;
 
             var msPos = Mouse.GetPosition(GetWindow());
             var gb = shape.GetGlobalBounds();
             if (gb.Contains(msPos))
             {
-                olc = Color.Red;
+                if (shape.OutlineColor != Color.Red)
+                {
+                    base.OnMouseEnter(null);
+                    olc = Color.Red;
+                }
+
             }
             else
             {
-                olc = new Color(Color.White - Background) { A = byte.MaxValue };
+                if (shape.OutlineColor != Color.Red)
+                {
+                    base.OnMouseLeave(null);
+                    olc = new Color(Color.White - Background) { A = byte.MaxValue };
+                }
             }
             shape.OutlineColor = olc;
             shape.OutlineThickness = 1;

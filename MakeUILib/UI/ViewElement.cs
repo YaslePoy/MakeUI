@@ -9,8 +9,9 @@ using MakeUILib.Basics;
 using MakeUILib.UI.Controls;
 using SelfGraphicsNext.RayGraphics.Graphics3D.Geometry;
 using SFML.Graphics;
+using SFML.Window;
 
-namespace MakeUILib
+namespace MakeUILib.UI
 {
     public class ViewElement
     {
@@ -44,5 +45,32 @@ namespace MakeUILib
             return toWindow;
         }
         public virtual void UpdateParentLikns() { }
+
+        public event EventHandler<MouseButtonEventArgs> MouseDown;
+        public event EventHandler<MouseButtonEventArgs> MouseUp;
+        public event EventHandler<MouseMoveEventArgs> MouseMove;
+        public event EventHandler<MouseMoveEventArgs> MouseEnter;
+        public event EventHandler<MouseMoveEventArgs> MouseLeave;
+
+        public void OnMouseDown(MouseButtonEventArgs e)
+        {
+            MouseDown?.Invoke(this, e);
+        }
+        public void OnMouseUp(MouseButtonEventArgs e)
+        {
+            MouseUp?.Invoke(this, e);
+        }
+        public void OnMouseMove(MouseMoveEventArgs e)
+        {
+            MouseMove?.Invoke(this, e);
+        }
+        public void OnMouseEnter(MouseMoveEventArgs e)
+        {
+            MouseEnter?.Invoke(this, e);
+        }
+        public void OnMouseLeave(MouseMoveEventArgs e)
+        {
+            MouseLeave?.Invoke(this, e);
+        }
     }
 }

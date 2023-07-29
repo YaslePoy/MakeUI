@@ -21,11 +21,15 @@ namespace MakeUILib.VEML
         {
             return $"{TypeName} {string.Join(' ', Properties.Select(i => i.ToString()))}" + (Items.Count > 0 ? $":{string.Join("", Items.Select(i => i.ToString()))}" : 0) + ";";
         }
-        public override object ToReal()
+
+        public override List<VEMLObject> GetIdentifiedObjectsInside()
         {
-            var baseObject = base.ToReal();
-            baseObject.GetType().GetProperty("Children").SetValue(baseObject, Items.Select(i => (ViewElement)i.ToReal()).ToList());
-            return baseObject;
+            var b = base.GetIdentifiedObjectsInside();
+            foreach (var item in Items)
+            {
+                b.AddRange(item.GetIdentifiedObjectsInside());
+            }
+            return b;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace MakeUILib.UI.Containers
     [VEMLPseudonym("Window")]
     public class Window
     {
+        MouseMoveEventArgs mouseMoving;
         RenderWindow _w;
         public string Id { get; set; }
         public string Title { get; set; }
@@ -32,6 +33,7 @@ namespace MakeUILib.UI.Containers
             //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
             _w.KeyPressed += _w_KeyPressed;
             _w.KeyReleased += _w_KeyReleased;
+            _w.MouseMoved += _w_MouseMoved;
             _w.SetActive(true);
 
             Content.toWindow = _w;
@@ -47,6 +49,12 @@ namespace MakeUILib.UI.Containers
                 _w.Display();
             }
         }
+
+        private void _w_MouseMoved(object? sender, MouseMoveEventArgs e)
+        {
+            mouseMoving = e;
+        }
+
         public void UpdateLinks()
         {
             Content.UpdateParentLikns();

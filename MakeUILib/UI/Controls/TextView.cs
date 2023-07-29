@@ -29,20 +29,22 @@ namespace MakeUILib.UI.Controls
                 inside.CharacterSize = (uint)value;
                 UpdateRect();
             }
-        } 
+        }
         public override Color Background { get => inside.Color; set => inside.Color = value; }
         public TextView(string text) : this()
         {
             Text = text;
-            var bounds = inside.GetGlobalBounds();
-            Width = bounds.Width;
-            Height = bounds.Height + bounds.Top;
+            //UpdateRect();
         }
         void UpdateRect()
         {
-var gb = inside.GetGlobalBounds();
+            //Task.Run(() =>
+            //{
+                var gb = inside.GetGlobalBounds();
                 Width = gb.Left + gb.Width;
                 Height = gb.Top + gb.Height;
+                
+            //});
         }
         public TextView()
         {

@@ -1,9 +1,9 @@
-﻿.Window Id="win" Title="Vid" Width=1000 Height=700 Content=
-	.Grid Margin=5 Rows=[200 300]:
+﻿.Window Title="Vid" Width=1000 Height=700 Content=
+	.Grid Id="BaseGrid" Margin=5 Rows=[200 300]:
 		.StackPlane Direction=Vertical Margin=5 Spacing=5:
 			.TextView Text="Ширина" FontSize=20;
-			.StackPlane Direction=Horizontal Height=50 Spacing=5:
-				.Button Content="+" Width=30 Height=30;
+			.StackPlane Id="SP1" Direction=Horizontal Height=50 Spacing=5:
+				.Button Content="+" MouseEnter="OnMD" Width=30 Height=30;
 				.Button Content="-" Width=30 Height=30;
 				.TextView Text="10" FontSize=20;
 			;

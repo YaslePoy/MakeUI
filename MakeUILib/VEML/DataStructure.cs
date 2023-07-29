@@ -105,7 +105,7 @@ namespace MakeUILib.VEML
                     var name = splited[0].Trim('\n');
                     var strValue = splited[1].Trim('\n');
                     object value = parce(strValue);
-                    vOjb.Add(new VEMLProperty() { Name = name, Value = value });
+                    vOjb.Add(new VEMLProperty() { Name = name, Value = value});
                 }
                 return vOjb;
             }

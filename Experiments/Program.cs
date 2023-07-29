@@ -1,4 +1,6 @@
-﻿using MakeUILib.UI.Containers;
+﻿using MakeUILib;
+using MakeUILib.UI;
+using MakeUILib.UI.Containers;
 using MakeUILib.VEML;
 using System.Text.Unicode;
 
@@ -8,6 +10,8 @@ namespace Experiments
     {
         static void Main(string[] args)
         {
+            MakeUILib.Utils.UpdateTypes();
+
             var win = File.ReadAllText("TextFile1.veml");
             Claster c = new Claster(win);
             c.SearchStructures();
@@ -16,8 +20,9 @@ namespace Experiments
             start.LoadText();
             start.Extend();
             var vemlFile = start.ToVEML();
-            MakeUILib.Utils.UpdateTypes();
-            var o = vemlFile.ToReal() as Window;
+            TestWindow o = new TestWindow();
+            VEMLParcer.LoadUpperLevel(o, vemlFile);
+
             o.UpdateLinks();
             o.Open();
         }

@@ -10,10 +10,10 @@ namespace MakeUILib.VEML
     {
         public string Name;
         public object Value;
-
         public override string ToString()
         {
             return $"{Name}={Value}";
         }
+        public bool IsObject => Value is VEMLObject;
     }
 }
