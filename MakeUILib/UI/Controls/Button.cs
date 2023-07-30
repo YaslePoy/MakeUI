@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MakeUILib.UI.Controls
 {
     [VEMLPseudonym("Button")]
-    internal class Button : ViewElement
+    public class Button : ViewElement
     {
         public ViewElement Content { get; set; }
         public Indent Padding { get; set; }

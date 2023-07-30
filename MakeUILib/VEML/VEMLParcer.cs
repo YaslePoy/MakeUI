@@ -133,8 +133,8 @@ namespace MakeUILib.VEML
                 var oType = propery.Value.GetType();
                 var targetEvent = oType.GetEvent(propery.Key.Name);
                 var handlerType = targetEvent.EventHandlerType;
-                var del = Delegate.CreateDelegate(handlerType, action);
-                targetEvent.AddEventHandler(instance, del);
+                var del = Delegate.CreateDelegate(handlerType, instance, propery.Key.Value as string, true);
+                targetEvent.AddEventHandler(propery.Value, del);
             }
         }
     }

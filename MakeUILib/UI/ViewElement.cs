@@ -72,5 +72,7 @@ namespace MakeUILib.UI
         {
             MouseLeave?.Invoke(this, e);
         }
+
+        public bool IsEME => MouseEnter != null;
     }
 }

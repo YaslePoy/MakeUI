@@ -22,7 +22,7 @@ namespace Experiments
             var vemlFile = start.ToVEML();
             TestWindow o = new TestWindow();
             VEMLParcer.LoadUpperLevel(o, vemlFile);
-
+            o.B1.OnMouseEnter(null);
             o.UpdateLinks();
             o.Open();
         }

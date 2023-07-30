@@ -3,14 +3,14 @@
 		.StackPlane Direction=Vertical Margin=5 Spacing=5:
 			.TextView Text="Ширина" FontSize=20;
 			.StackPlane Id="SP1" Direction=Horizontal Height=50 Spacing=5:
-				.Button Content="+" MouseEnter="OnMD" Width=30 Height=30;
-				.Button Content="-" Width=30 Height=30;
+				.Button Id="B1" Content="+" MouseEnter="OnMD" Width=30 Height=30;
+				.Button Id="B2" Content="-" Width=30 Height=30;
 				.TextView Text="10" FontSize=20;
 			;
 			.TextView Text="Выcота" FontSize=20;
 			.StackPlane Direction=Horizontal Height=50 Spacing=5:
-				.Button Content="+" Width=30 Height=30;
-				.Button Content="-" Width=30 Height=30;
+				.Button Id="B3" Content="+" Width=30 Height=30;
+				.Button Id="B4" Content="-" Width=30 Height=30;
 				.TextView Text="10" FontSize=20;
 			;
 		;

@@ -1,4 +1,6 @@
 ﻿using MakeUILib.UI.Containers;
+using MakeUILib.UI.Controls;
+
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace Experiments
     {
         public Grid BaseGrid;
         public StackPlane SP1;
+        public Button B1;
 
         public void OnMD(object sender, MouseMoveEventArgs e)
         {
