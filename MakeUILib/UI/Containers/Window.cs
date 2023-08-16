@@ -25,29 +25,33 @@ namespace MakeUILib.UI.Containers
         public int Height { get; set; }
         public void Open()
         {
-            Stopwatch sw = new Stopwatch();
-            _w = new RenderWindow(new SFML.Window.VideoMode((uint)Width, (uint)Height), Title);
-            _w.SetFramerateLimit(50);
-            _w.SetKeyRepeatEnabled(false);
-            _w.Closed += (a, b) => _w.Close();
-            //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
-            _w.KeyPressed += _w_KeyPressed;
-            _w.KeyReleased += _w_KeyReleased;
-            _w.MouseMoved += _w_MouseMoved;
-            _w.SetActive(true);
-
-            Content.toWindow = _w;
-            while (_w.IsOpen)
+            Task.Run(() =>
             {
-                _w.DispatchEvents();
+                Stopwatch sw = new Stopwatch();
+                _w = new RenderWindow(new SFML.Window.VideoMode((uint)Width, (uint)Height), Title);
+                _w.SetFramerateLimit(50);
+                _w.SetKeyRepeatEnabled(false);
+                _w.Closed += (a, b) => _w.Close();
+                //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
+                _w.KeyPressed += _w_KeyPressed;
+                _w.KeyReleased += _w_KeyReleased;
+                _w.MouseMoved += _w_MouseMoved;
+                _w.SetActive(true);
 
-                _w.Clear(new Color(210, 210, 210));
-                if (Content != null)
+                Content.rendWindow = _w;
+                while (_w.IsOpen)
                 {
-                    Content.Draw(DVector2.Zero);
+                    _w.DispatchEvents();
+
+                    _w.Clear(new Color(210, 210, 210));
+                    if (Content != null)
+                    {
+                        Content.Draw(DVector2.Zero);
+                    }
+                    _w.Display();
                 }
-                _w.Display();
-            }
+            });
+
         }
 
         private void _w_MouseMoved(object? sender, MouseMoveEventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace MakeUILib.UI
     {
         public string Id { get; set; }
         public ViewElement Parent { get; set; }
-        public RenderWindow toWindow { get; set; }
+        public RenderWindow rendWindow { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public bool IsVisible { get; set; } = true;
@@ -38,17 +39,18 @@ namespace MakeUILib.UI
         }
         public RenderWindow GetWindow()
         {
-            if (toWindow == null)
+            if (rendWindow == null)
             {
-                toWindow = Parent.GetWindow();
+                rendWindow = Parent.GetWindow();
             }
-            return toWindow;
+            return rendWindow;
         }
         public virtual void UpdateParentLikns() { }
 
         public event EventHandler<MouseButtonEventArgs> MouseDown;
         public event EventHandler<MouseButtonEventArgs> MouseUp;
         public event EventHandler<MouseMoveEventArgs> MouseMove;
+
         public event EventHandler<MouseMoveEventArgs> MouseEnter;
         public event EventHandler<MouseMoveEventArgs> MouseLeave;
 
@@ -66,6 +68,8 @@ namespace MakeUILib.UI
         }
         public void OnMouseEnter(MouseMoveEventArgs e)
         {
+            var x = this == Program.tempBut;
+
             MouseEnter?.Invoke(this, e);
         }
         public void OnMouseLeave(MouseMoveEventArgs e)
@@ -74,5 +78,6 @@ namespace MakeUILib.UI
         }
 
         public bool IsEME => MouseEnter != null;
+        public int Hash => GetHashCode();
     }
 }

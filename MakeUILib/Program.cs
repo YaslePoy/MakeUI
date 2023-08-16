@@ -8,6 +8,8 @@ namespace MakeUILib
 {
     internal class Program
     {
+        public static Button tempBut;
+
         static void Main(string[] args)
         {
             //Console.WriteLine("Hello, World!");
@@ -41,9 +43,14 @@ namespace MakeUILib
             start.LoadText();
             start.Extend();
             var vemlFile = start.ToVEML();
-            //TestWindow o = new TestWindow();
-            //VEMLParcer.LoadUpperLevel(o, vemlFile);
-            Console.WriteLine("All is done");
+            TestWindow o = new TestWindow();
+            VEMLParcer.LoadUpperLevel(o, vemlFile);
+            tempBut = o.B1;
+            o.B1.OnMouseEnter(null);
+            o.UpdateLinks();
+            o.Open();
+            while (true) ;
+
 
         }
     }
