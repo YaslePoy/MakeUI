@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MakeUILib.UI.Controls
+namespace MakeUILib.UI
 {
     [VEMLPseudonym("TextView")]
     public class TextView : ViewElement

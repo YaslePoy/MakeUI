@@ -7,8 +7,7 @@ using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
 using MakeUILib.Basics;
-using MakeUILib.UI.Controls;
-using SelfGraphicsNext.RayGraphics.Graphics3D.Geometry;
+using MakeUILib.UI;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -16,9 +15,12 @@ namespace MakeUILib.UI
 {
     public class ViewElement
     {
+        private bool redrawing = true;
+        public virtual bool Redrawing { get; }
         public string Id { get; set; }
         public ViewElement Parent { get; set; }
         public RenderWindow rendWindow { get; set; }
+        public Window HostWindow { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public bool IsVisible { get; set; } = true;
@@ -68,8 +70,6 @@ namespace MakeUILib.UI
         }
         public void OnMouseEnter(MouseMoveEventArgs e)
         {
-            var x = this == Program.tempBut;
-
             MouseEnter?.Invoke(this, e);
         }
         public void OnMouseLeave(MouseMoveEventArgs e)
@@ -79,5 +79,9 @@ namespace MakeUILib.UI
 
         public bool IsEME => MouseEnter != null;
         public int Hash => GetHashCode();
+        public void RedrawWindow()
+        {
+            this.HostWindow.DrawRequest = true;
+        }
     }
 }

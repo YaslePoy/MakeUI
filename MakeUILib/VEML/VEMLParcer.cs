@@ -42,11 +42,18 @@ namespace MakeUILib.VEML
             }
             if (curType == null)
                 return null;
+
             var retObj = Activator.CreateInstance(curType);
             FillFromVEML(retObj, obj);
             if (obj is VEMLCollection)
             {
-                retObj.GetType().GetProperty("Children").SetValue(retObj, (obj as VEMLCollection).Items.Select(i => (ViewElement)ParceVEML(i)).ToList());
+                var into = new List<ViewElement>();
+                foreach (var item in (obj as VEMLCollection).Items)
+                {
+                    into.Add((ViewElement)ParceVEML(item));
+                }
+
+                retObj.GetType().GetProperty("Children").SetValue(retObj, into);
             }
             return retObj;
         }
@@ -72,7 +79,7 @@ namespace MakeUILib.VEML
                         var localVal = VEMLToRealParce(prop.Value);
                         var valueType = localVal.GetType();
                         if (valueType.IsSubclassOf(propO.PropertyType) || propO.PropertyType == valueType)
-                            propO.SetValue(retObj, VEMLToRealParce(prop.Value));
+                            propO.SetValue(retObj, localVal);
                         else
                         {
                             var methods = typeof(Parsers).GetMethods();
@@ -117,7 +124,6 @@ namespace MakeUILib.VEML
             var fields = instance.GetType().GetFields();
             foreach (var ided in VEMLParcer.Identificated)
             {
-
                 var setField = fields.FirstOrDefault(i => i.Name == ided.Key.Value as string);
                 if (setField == null) continue;
                 setField.SetValue(instance, ided.Value);

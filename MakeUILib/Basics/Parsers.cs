@@ -1,6 +1,5 @@
 ﻿using MakeUILib.UI;
-using MakeUILib.UI.Containers;
-using MakeUILib.UI.Controls;
+using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +34,27 @@ namespace MakeUILib.Basics
         public static ViewElement ToInt(string text)
         {
             return new TextView(text) as ViewElement;
+        }
+
+        [ParceMethod(typeof(string), typeof(Color))]
+        public static Color ToColorHEX(string a)
+        {
+            return new Color(Convert.ToUInt32(a.Length == 8 ? a : a + "ff", 16));
+        }
+        [ParceMethod(typeof(int[]), typeof(Color))]
+        public static Color ToColorRGB(int[] a)
+        {
+            switch (a.Length)
+            {
+                case 3:
+                    return new Color((byte)a[0], (byte)a[1], (byte)a[2]);
+                case 4:
+                    return new Color((byte)a[0], (byte)a[1], (byte)a[2], (byte)a[3]);
+                case 1:
+                    return new Color((byte)a[0], (byte)a[0], (byte)a[0]);
+                default:
+                    return Color.Transparent;
+            }
         }
     }
 }

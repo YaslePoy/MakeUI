@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MakeUILib.UI.Containers
+namespace MakeUILib.UI
 {
     [VEMLPseudonym("PositionalPlane")]
     internal class PositionalPlane : Container

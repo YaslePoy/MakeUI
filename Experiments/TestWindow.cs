@@ -1,5 +1,5 @@
-﻿using MakeUILib.UI.Containers;
-using MakeUILib.UI.Controls;
+﻿using MakeUILib.UI;
+
 
 using SFML.Window;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Experiments
 {
-    public class TestWindow : MakeUILib.UI.Containers.Window
+    public class TestWindow : MakeUILib.UI.Window
     {
         public Grid BaseGrid;
         public StackPlane SP1;

@@ -1,5 +1,5 @@
 ﻿using MakeUILib.Basics;
-using MakeUILib.UI.Containers;
+using MakeUILib.UI;
 using SFML.Graphics;
 using SFML.Window;
 using System;
@@ -9,11 +9,13 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MakeUILib.UI.Controls
+namespace MakeUILib.UI
 {
     [VEMLPseudonym("Button")]
     public class Button : ViewElement
     {
+        public Color BorderColor { get; set; } = Color.White;
+        Color lastBorder;
         public ViewElement Content { get; set; }
         public Indent Padding { get; set; }
         public override void Draw(DVector2 position)
@@ -27,21 +29,25 @@ namespace MakeUILib.UI.Controls
             var gb = shape.GetGlobalBounds();
             if (gb.Contains(msPos))
             {
-                if (shape.OutlineColor != Color.Red)
+                if (lastBorder != Color.Red)
                 {
-                    base.OnMouseEnter(null);
+                    base.OnMouseEnter(HostWindow.MouseMoving);
                     olc = Color.Red;
+                    lastBorder = olc;
                 }
 
             }
             else
             {
-                if (shape.OutlineColor != Color.Red)
+                if (lastBorder != BorderColor)
                 {
-                    base.OnMouseLeave(null);
-                    olc = new Color(Color.White - Background) { A = byte.MaxValue };
+                    base.OnMouseLeave(HostWindow.MouseMoving);
+                    olc = BorderColor;
+                    lastBorder = olc;
+
                 }
             }
+            lastBorder = olc;
             shape.OutlineColor = olc;
             shape.OutlineThickness = 1;
             GetWindow().Draw(shape);
