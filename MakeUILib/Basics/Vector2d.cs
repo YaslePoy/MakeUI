@@ -7,69 +7,74 @@ using System.Threading.Tasks;
 
 namespace MakeUILib.Basics
 {
-    public class DVector2
+    public class Vector2d
     {
-        public readonly static DVector2 Zero = new DVector2(0, 0);
+        public readonly static Vector2d Zero = new Vector2d(0, 0);
         public double X { get; set; }
         public double Y { get; set; }
-        public DVector2(double x, double y)
+        public Vector2d()
+        {
+            X = 0;
+            Y = 0;
+        }
+        public Vector2d(double x, double y)
         {
             X = x;
             Y = y;
         }
-        public static bool operator ==(DVector2 p1, DVector2 p2)
+        public static bool operator ==(Vector2d p1, Vector2d p2)
         {
             if (p1 is null || p2 is null)
                 return false;
             return p1.X == p2.X && p1.Y == p2.Y;
         }
 
-        public static bool operator !=(DVector2 p1, DVector2 p2)
+        public static bool operator !=(Vector2d p1, Vector2d p2)
         {
             if (p1 is null || p2 is null)
                 return false;
             return p1.X != p2.X || p1.Y != p2.Y;
         }
 
-        public static DVector2 operator +(DVector2 p1, DVector2 p2)
+        public static Vector2d operator +(Vector2d p1, Vector2d p2)
         {
 
-            return new DVector2(p1.X + p2.X, p1.Y + p2.Y);
+            return new Vector2d(p1.X + p2.X, p1.Y + p2.Y);
         }
 
-        public static DVector2 operator -(DVector2 p1, DVector2 p2)
+        public static Vector2d operator -(Vector2d p1, Vector2d p2)
         {
-            return new DVector2(p1.X - p2.X, p1.Y - p2.Y);
+            return new Vector2d(p1.X - p2.X, p1.Y - p2.Y);
         }
 
-        public static DVector2 operator *(DVector2 p, double k)
+        public static Vector2d operator *(Vector2d p, double k)
         {
             p.X *= k;
             p.Y *= k;
             return p;
         }
 
-        public static DVector2 operator /(DVector2 p, double k)
+        public static Vector2d operator /(Vector2d p, double k)
         {
             p.X /= k;
             p.Y /= k;
             return p;
         }
 
-        public double GetDistanceTo(DVector2 aim)
+        public double GetDistanceTo(Vector2d aim)
         {
             return Math.Sqrt(Math.Pow((aim.X - this.X), 2) + Math.Pow((aim.Y - this.Y), 2));
         }
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
-            if (!(obj is DVector2)) return false;
-            DVector2 p = (DVector2)obj;
+            if (!(obj is Vector2d)) return false;
+            Vector2d p = (Vector2d)obj;
             return this == p;
         }
-        public DVector2 Rounded(int a = 4)
+        public Vector2d Rounded(int a = 4)
         {
-            return new DVector2(X.Round(a), Y.Round(a));
+            return new Vector2d(X.Round(a), Y.Round(a));
         }
         public void Round(int a = 4)
         {
@@ -82,9 +87,11 @@ namespace MakeUILib.Basics
             return $"{{X:{r.X};Y:{r.Y}}}";
         }
 
-        public static implicit operator Vector2f(DVector2 v)
+        public static implicit operator Vector2f(Vector2d v)
         {
             return new Vector2f((float)v.X, (float)v.Y);
         }
+
+        public bool IsZero() => X == 0 && Y == 0;
     }
 }

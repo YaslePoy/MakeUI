@@ -10,19 +10,27 @@
   <ItemGroup>
     <None Remove="1.veml" />
     <None Remove="2.veml" />
+    <None Remove="TestWindow.veml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="2.veml">
+    <EmbeddedResource Include="Rescouces\TestWindow.veml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="1.veml">
+    <EmbeddedResource Include="Rescouces\2.veml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rescouces\1.veml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MakeUILib\MakeUILib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -2,8 +2,11 @@
 using SFML.System;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,6 +56,7 @@ namespace MakeUILib
             return dX >= 0 && dX < rect.Width && dY >= 0 && dY < rect.Height;
         }
 
+        public static Vector2f Sum(this FloatRect rect) { return new Vector2f((rect.Left + rect.Width), (rect.Top + rect.Height)); }
         public static void UpdateTypes()
         {
             var local = Assembly.GetExecutingAssembly().GetTypes().ToList();
@@ -63,13 +67,13 @@ namespace MakeUILib
         public static FieldInfo GetFieldDeep(this Type t, string fieldName)
         {
             var searchField = t.GetField(fieldName);
-            if(searchField != null)
+            if (searchField != null)
                 return searchField;
             var bType = t.BaseType;
-            while(bType != null)
+            while (bType != null)
             {
                 searchField = bType.GetField(fieldName);
-                if(searchField != null) return searchField;
+                if (searchField != null) return searchField;
                 bType = bType.BaseType;
             }
             return null;
@@ -87,7 +91,12 @@ namespace MakeUILib
                 bType = bType.BaseType;
             }
             return null;
-
+        }
+        public static int GetSequenceHashCode<T>(this List<T> sequence)
+        {
+            return sequence
+                .Select(item => item.GetHashCode())
+                .Aggregate((total, nextCode) => total ^ nextCode);
         }
     }
 }

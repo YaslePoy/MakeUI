@@ -1,0 +1,6 @@
+﻿.Window Title="Vid" Width=1000 Height=700 Content=
+	.StackPlane Margin=20 Background="afafafff":
+		.TextView Text="test 1";
+		.TextView Text="test 2" Margin=30;
+	;
+;

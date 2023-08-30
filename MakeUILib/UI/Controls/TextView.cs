@@ -1,8 +1,10 @@
 ﻿using MakeUILib.Basics;
+using MakeUILib.VEML;
 using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,8 @@ namespace MakeUILib.UI
         {
             get => inside.DisplayedString; set
             {
+                if (inside.DisplayedString == value)
+                    return;
                 inside.DisplayedString = value;
                 UpdateRect();
             }
@@ -30,7 +34,6 @@ namespace MakeUILib.UI
                 UpdateRect();
             }
         }
-        public override Color Background { get => inside.Color; set => inside.Color = value; }
         public TextView(string text) : this()
         {
             Text = text;
@@ -38,24 +41,27 @@ namespace MakeUILib.UI
         }
         void UpdateRect()
         {
-            //Task.Run(() =>
-            //{
-                var gb = inside.GetGlobalBounds();
-                Width = gb.Left + gb.Width;
-                Height = gb.Top + gb.Height;
-                
-            //});
+            var gb = inside.GetGlobalBounds().Sum();
+            Width = gb.X;
+            Height = gb.Y;
         }
-        public TextView()
+        public TextView() : base()
         {
             inside = new SFML.Graphics.Text("", Font);
         }
-        public override void Draw(DVector2 position)
+        public override Texture Draw()
         {
-            var win = GetWindow();
 
-            inside.Position = position;
-            win.Draw(inside);
+            var bounds = inside.GetLocalBounds().Sum();
+            _texture = new RenderTexture((uint)bounds.X, (uint)bounds.Y);
+            _texture.Clear(Background);
+            _texture.Draw(inside);
+
+            return FinalizeTexture();
+        }
+        public void EndInit()
+        {
+            Console.WriteLine("here");
         }
     }
 }

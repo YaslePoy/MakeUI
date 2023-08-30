@@ -1,6 +1,7 @@
 ﻿using MakeUILib.Basics;
 using MakeUILib.UI;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using System;
 using System.Collections.Generic;
@@ -15,44 +16,30 @@ namespace MakeUILib.UI
     public class Button : ViewElement
     {
         public Color BorderColor { get; set; } = Color.White;
-        Color lastBorder;
+
+        public int BorderWidth { get; set; }
         public ViewElement Content { get; set; }
         public Indent Padding { get; set; }
-        public override void Draw(DVector2 position)
+        public override Texture Draw()
         {
-            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)(Width + (Padding + Content.Margin).Horisontal), (float)(Height + (Padding + Content.Margin).Vertical)));
-            shape.FillColor = Background;
-            shape.Position = position;
-            Color olc = Color.Transparent;
-
-            var msPos = Mouse.GetPosition(GetWindow());
-            var gb = shape.GetGlobalBounds();
-            if (gb.Contains(msPos))
-            {
-                if (lastBorder != Color.Red)
-                {
-                    base.OnMouseEnter(HostWindow.MouseMoving);
-                    olc = Color.Red;
-                    lastBorder = olc;
-                }
-
-            }
-            else
-            {
-                if (lastBorder != BorderColor)
-                {
-                    base.OnMouseLeave(HostWindow.MouseMoving);
-                    olc = BorderColor;
-                    lastBorder = olc;
-
-                }
-            }
-            lastBorder = olc;
-            shape.OutlineColor = olc;
-            shape.OutlineThickness = 1;
-            GetWindow().Draw(shape);
+            Vector2d cSize = new Vector2d();
             if (Content != null)
-                Content.Draw(position + new DVector2(Padding.Left + Content.Margin.Left, Padding.Top + Content.Margin.Top));
+                cSize = Content.LayoutRect;
+            var pSize = Padding.Sum();
+            var totalSum = cSize + pSize;
+            if(totalSum.IsZero()) totalSum = new Vector2d(20, 20);
+            Rectangle rt = new Rectangle() { BorderColor = BorderColor, BorderThickness = BorderWidth, Height = (int)totalSum.Y, Width = (int)totalSum.X, MainColor = Background };
+            totalSum.X += BorderWidth * 2;
+            totalSum.Y += BorderWidth * 2;
+            _texture = new RenderTexture((uint)totalSum.X, (uint)totalSum.Y);
+            rt.DrawTo( _texture );
+            if (Content != null)
+            {
+                var ct = Content.Draw();
+                _texture.Draw(new Sprite(ct) { Position = new Vector2f((float)(Padding.Left + BorderWidth), (float)(Padding.Top + BorderWidth)) });
+            }
+            _texture.Display();
+            return FinalizeTexture();
         }
 
         public Button(string text)
@@ -64,7 +51,7 @@ namespace MakeUILib.UI
             Height = rect.Y + Padding.Vertical;
             Content.Parent = this;
         }
-        public Button()
+        public Button() : base()
         {
             Width = 50;
             Height = 50;

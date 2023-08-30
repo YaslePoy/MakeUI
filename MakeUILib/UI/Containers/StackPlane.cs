@@ -1,4 +1,5 @@
 ﻿using MakeUILib.Basics;
+using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,28 +13,23 @@ namespace MakeUILib.UI
     {
         public Orientation Direction { get; set; }
         public Indent Spacing { get; set; }
-        public override void Draw(DVector2 position)
+        public override Texture Draw()
         {
-            double sum = 0;
+            CreateDefaultTexture();
+
             var workList = Children.ToArray();
-            foreach (var child in workList)
+            List<(ViewElement, Texture)> ts = FinalRenderList();
+            var move = new Vector2d(Spacing.Left, Spacing.Top);
+            foreach (var child in ts)
             {
-                if (!child.IsActive)
-                    continue;
-                var delta = new DVector2(0, 0);
-                switch (Direction)
-                {
-                    case Orientation.Horizontal:
-                        delta.X = sum;
-                        sum += child.LayoutRect.X + Spacing.Horisontal;
-                        break;
-                    case Orientation.Vertical:
-                        delta.Y = sum;
-                        sum += child.LayoutRect.Y + Spacing.Vertical;
-                        break;
-                }
-                child.Draw(position + delta);
+                var c = child.Item1;
+                var t = child.Item2;
+                var finalPosition = move + new Vector2d(c.Margin.Left, c.Margin.Top);
+                _texture.Draw(new Sprite(child.Item2) { Position = finalPosition });
+                move += Direction switch { Orientation.Vertical => new Vector2d(0, t.Size.Y + Spacing.Vertical + c.Margin.Vertical), Orientation.Horizontal => new Vector2d(t.Size.X + Spacing.Horisontal + c.Margin.Horisontal, 0) };
             }
+
+            return FinalizeTexture();
         }
     }
 }

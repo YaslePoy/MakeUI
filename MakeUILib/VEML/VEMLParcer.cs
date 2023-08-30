@@ -4,14 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MakeUILib.VEML
 {
     public static class VEMLParcer
     {
-        public static Dictionary<VEMLObject, object> Session = new Dictionary<VEMLObject, object>();
+
+        static bool parsing = false;
+        public static bool Parsing => parsing;
+        public static Dictionary<string, object> Session = new Dictionary<string, object>();
         public static Dictionary<VEMLProperty, object> Identificated = new Dictionary<VEMLProperty, object>();
         public static Dictionary<VEMLProperty, object> Events = new Dictionary<VEMLProperty, object>();
 
@@ -48,13 +53,16 @@ namespace MakeUILib.VEML
             if (obj is VEMLCollection)
             {
                 var into = new List<ViewElement>();
+
                 foreach (var item in (obj as VEMLCollection).Items)
                 {
                     into.Add((ViewElement)ParceVEML(item));
                 }
-
-                retObj.GetType().GetProperty("Children").SetValue(retObj, into);
+                curType.GetProperty("Children").SetValue(retObj, into);
             }
+            var endMethod = curType.GetMethod("EndInit");
+            if (endMethod != null)
+                endMethod.Invoke(retObj, null);
             return retObj;
         }
         public static void FillFromVEML(object instance, VEMLObject vemlObj)
@@ -83,7 +91,7 @@ namespace MakeUILib.VEML
                         else
                         {
                             var methods = typeof(Parsers).GetMethods();
-                            var m = methods.Where(i => i.GetCustomAttribute(typeof(ParceMethod)) != null).FirstOrDefault(i => (i.GetCustomAttribute(typeof(ParceMethod)) as ParceMethod).IsFor(valueType, propO.PropertyType));
+                            var m = methods.FirstOrDefault(i => (i.GetCustomAttribute(typeof(ParceMethod)) as ParceMethod).IsFor(valueType, propO.PropertyType));
                             if (m == null)
                                 return;
                             var finalValue = m.Invoke(null, new object[] { prop.Value });
@@ -98,9 +106,6 @@ namespace MakeUILib.VEML
                     Events.TryAdd(prop, retObj);
                 }
             }
-            Session.TryAdd(vemlObj, retObj);
-
-
         }
         public static object VEMLToRealParce(object o)
         {
@@ -120,6 +125,7 @@ namespace MakeUILib.VEML
         }
         public static void LoadUpperLevel(object instance, VEMLObject obj)
         {
+            parsing = true;
             FillFromVEML(instance, obj);
             var fields = instance.GetType().GetFields();
             foreach (var ided in VEMLParcer.Identificated)
@@ -142,6 +148,26 @@ namespace MakeUILib.VEML
                 var del = Delegate.CreateDelegate(handlerType, instance, propery.Key.Value as string, true);
                 targetEvent.AddEventHandler(propery.Value, del);
             }
+            parsing = false;
+        }
+        public static void LoadLayout(object instance)
+        {
+            LoadLayout(instance, instance.GetType().Name);
+        }
+        public static void LoadLayout(object instance, string vemlName)
+        {
+            if (Utils.TotalTypes == null)
+                Utils.UpdateTypes();
+
+                var win = File.ReadAllText("Rescouces\\" + vemlName + ".veml");
+                Claster c = new Claster(win);
+                c.SearchStructures();
+                var start = c.MainStruct();
+                start.UpdateStructures();
+                start.LoadText();
+                start.Extend();
+                var vemlFile = start.ToVEML();
+                VEMLParcer.LoadUpperLevel(instance, vemlFile);            
         }
     }
 }

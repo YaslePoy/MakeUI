@@ -15,8 +15,10 @@ namespace MakeUILib.UI
 {
     public class ViewElement
     {
-        private bool redrawing = true;
-        public virtual bool Redrawing { get; }
+
+        protected RenderTexture _texture;
+        protected bool redrawing = true;
+        public virtual bool Redrawing { get => redrawing; }
         public string Id { get; set; }
         public ViewElement Parent { get; set; }
         public RenderWindow rendWindow { get; set; }
@@ -26,26 +28,26 @@ namespace MakeUILib.UI
         public bool IsVisible { get; set; } = true;
         public bool IsActive { get; set; } = true;
         public Indent Margin { get; set; } = StaticValues.DefauldIndent;
-        public virtual Color Background { get; set; }
-        public virtual DVector2 LayoutRect { get => new DVector2(Width + Margin.Horisontal, Height + Margin.Vertical); }
-        public virtual void Draw(DVector2 position)
+
+        public Vector2d MaxSize { get; set; }
+
+        public virtual Color Background { get => background; set => background = value; }
+        Color background = Color.Transparent;
+        public virtual Vector2d LayoutRect { get => new Vector2d(Width + Margin.Horisontal, Height + Margin.Vertical); }
+
+        public ViewElement()
+        {
+            Margin.Changed += (o, e) => { if (IsVisible) RedrawWindow(); Parent.redrawing = true; };
+        }
+        public virtual Texture Draw()
         {
             if (!IsVisible)
-                return;
-            RectangleShape shape = new RectangleShape(new SFML.System.Vector2f((float)Width, (float)Height));
-            shape.Position = position;
-            shape.FillColor = new Color(32, 32, 32, 16);
+                return new Texture(0, 0);
+
             TextView text = new TextView();
             text.Text = GetType().FullName;
-            GetWindow().Draw(shape);
-        }
-        public RenderWindow GetWindow()
-        {
-            if (rendWindow == null)
-            {
-                rendWindow = Parent.GetWindow();
-            }
-            return rendWindow;
+            return text.Draw();
+            
         }
         public virtual void UpdateParentLikns() { }
 
@@ -82,6 +84,12 @@ namespace MakeUILib.UI
         public void RedrawWindow()
         {
             this.HostWindow.DrawRequest = true;
+        }
+        public Texture FinalizeTexture()
+        {
+            _texture.Display();
+            redrawing = false;
+            return _texture.Texture;
         }
     }
 }

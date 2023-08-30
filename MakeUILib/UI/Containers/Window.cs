@@ -13,12 +13,12 @@ using static SFML.Graphics.Font;
 
 namespace MakeUILib.UI
 {
-    [VEMLPseudonym("Window")]
+    [VEMLPseudonym("Window"), Serializable]
     public class Window
     {
         public MouseMoveEventArgs MouseMoving;
         RenderWindow _w;
-        public bool DrawRequest;
+        public bool DrawRequest = true;
         public string Id { get; set; }
         public string Title { get; set; }
         public ViewElement Content { get; set; }
@@ -29,61 +29,42 @@ namespace MakeUILib.UI
         {
             Task.Run(() =>
             {
-                Stopwatch sw = new Stopwatch();
-                _w = new RenderWindow(new SFML.Window.VideoMode((uint)Width, (uint)Height), Title);
-                _w.SetFramerateLimit(50);
-                _w.SetKeyRepeatEnabled(false);
-                _w.Closed += (a, b) => _w.Close();
-                //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
-                _w.KeyPressed += _w_KeyPressed;
-                _w.KeyReleased += _w_KeyReleased;
-                _w.MouseMoved += _w_MouseMoved;
-                _w.SetActive(true);
-
-                Content.rendWindow = _w;
-                Content.HostWindow = this;
-                while (_w.IsOpen)
-                {
-                    _w.DispatchEvents();
-                    if (!DrawRequest)
-                        continue;
-                    _w.Clear(Background);
-                    if (Content != null)
-                    {
-                        Content.Draw(DVector2.Zero);
-                    }
-                    _w.Display();
-                    DrawRequest = false;
-                }
+                OpenW();
             });
         }
 
         public void OpenW()
         {
 
-                Stopwatch sw = new Stopwatch();
-                _w = new RenderWindow(new SFML.Window.VideoMode((uint)Width, (uint)Height), Title);
-                _w.SetFramerateLimit(50);
-                _w.SetKeyRepeatEnabled(false);
-                _w.Closed += (a, b) => _w.Close();
-                //_w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
-                _w.KeyPressed += _w_KeyPressed;
-                _w.KeyReleased += _w_KeyReleased;
-                _w.MouseMoved += _w_MouseMoved;
-                _w.SetActive(true);
+            Stopwatch sw = new Stopwatch();
+            _w = new RenderWindow(new SFML.Window.VideoMode((uint)Width, (uint)Height), Title);
+            _w.SetFramerateLimit(50);
+            _w.SetKeyRepeatEnabled(false);
+            _w.Closed += (a, b) => _w.Close();
+            _w.Resized += (a, b) => _w.SetView(new View(new FloatRect(0, 0, b.Width, b.Height)));
+            _w.KeyPressed += _w_KeyPressed;
+            _w.KeyReleased += _w_KeyReleased;
+            _w.MouseMoved += _w_MouseMoved;
+            _w.SetActive(true);
 
-                Content.rendWindow = _w;
-                while (_w.IsOpen)
+            Content.rendWindow = _w;
+            Content.HostWindow = this;
+            Content.MaxSize = new Vector2d(Width, Height);
+            while (_w.IsOpen)
+            {
+                _w.DispatchEvents();
+                if (!DrawRequest)
+                    continue;
+                _w.Clear(Background);
+                if (Content != null)
                 {
-                    _w.DispatchEvents();
-
-                    _w.Clear(Color.White);
-                    if (Content != null)
-                    {
-                        //Content.Draw(DVector2.Zero);
-                    }
-                    _w.Display();
+                    var newFrame = Content.Draw();
+                    _w.Draw(new Sprite(newFrame) { Position = new Vector2f((float)Content.Margin.Left, (float)Content.Margin.Top) });
                 }
+                _w.Display();
+
+                DrawRequest = false;
+            }
         }
 
         private void _w_MouseMoved(object? sender, MouseMoveEventArgs e)
